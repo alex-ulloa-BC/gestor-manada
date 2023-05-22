@@ -90,7 +90,7 @@ class IntegrantesViewModel: ObservableObject {
                 }
                 try db.collection(IntegrantesViewModel.integrantesCollection).document(id).setData(from: integranteNuevo)
             } else {
-                if integrantes.first(where: {$0.nombre == integranteNuevo.nombre}) != nil {
+                if integrantes.first(where: {$0.nombre.uppercased() == integranteNuevo.nombre.uppercased()}) != nil {
                     return
                 }
                 try db.collection(IntegrantesViewModel.integrantesCollection).addDocument(from: integranteNuevo)

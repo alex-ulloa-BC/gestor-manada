@@ -22,6 +22,12 @@ struct ContentView: View {
                     Image(systemName: "tent.fill")
                     Text("Actividades")
                 }
+            
+            ActividadesView()
+                .tabItem{
+                    Image(systemName: "flag.checkered.2.crossed")
+                    Text("Insignias")
+                }
         }
     }
 }

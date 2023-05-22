@@ -9,7 +9,6 @@ import SwiftUI
 
 struct IntegrentesView: View {
     @ObservedObject var integrantesViewModel = IntegrantesViewModel()
-    @State var promesa: Bool? = nil
     @State private var isShowingSheet = false
     
     func agregarIntegrante() {
@@ -55,7 +54,7 @@ struct IntegrentesView: View {
             Spacer()
         }
         .onAppear {
-            let query = integrantesViewModel.query(nombre: nil, promesa: promesa, etapa: nil, sortOption: nil)
+            let query = integrantesViewModel.query(nombre: nil, promesa: nil, etapa: nil, sortOption: nil)
             integrantesViewModel.subscribe(to: query)
         }
         .onDisappear {

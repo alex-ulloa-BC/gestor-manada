@@ -15,7 +15,6 @@ struct IntegranteNuevo: View {
     
     func handleSave() {
         integrantesViewModel.addIntegrante()
-        
         handleClose()
     }
     
