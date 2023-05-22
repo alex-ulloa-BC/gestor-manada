@@ -13,6 +13,17 @@ struct IntegrentesView: View {
     @State private var isShowingSheet = false
     
     func agregarIntegrante() {
+        integrantesViewModel.integranteNuevo = Integrante(
+            nombre: "",
+            nombreCaza: "",
+            fechaNacimiento: Date(),
+            promesa: false,
+            etapa: .pataTierna,
+            carnetizado: false,
+            seisena: .blanca,
+            especialidades: nil,
+            contactoEmergencia: ContactoEmergencia(nombre: "", numero: "")
+        )
         isShowingSheet = true
     }
     
@@ -26,7 +37,7 @@ struct IntegrentesView: View {
                 .bold()
                 .font(.title2)
                 .foregroundColor(.mint)
-            List(integrantesViewModel.integrantes) { integrante in
+            List(integrantesViewModel.integrantes.sorted {$0.nombre < $1.nombre}) { integrante in
                 NavigationLink(integrante.nombre, value: integrante)
                 
             }
@@ -38,7 +49,10 @@ struct IntegrentesView: View {
             
             Button(action: agregarIntegrante) {
                 Text("Agregar integrante")
-            }.buttonStyle(.bordered)
+                    .frame(maxWidth: .infinity)
+            }.buttonStyle(.borderedProminent)
+                .padding()
+            Spacer()
         }
         .onAppear {
             let query = integrantesViewModel.query(nombre: nil, promesa: promesa, etapa: nil, sortOption: nil)
@@ -50,11 +64,13 @@ struct IntegrentesView: View {
         .sheet(isPresented: $isShowingSheet, onDismiss: handleCloseSheet) {
             IntegranteNuevo(handleClose: handleCloseSheet)
         }
+        .environmentObject(integrantesViewModel)
     }
 }
 
 struct IntegrentesView_Previews: PreviewProvider {
+    static let EnvObject = IntegrantesViewModel()
     static var previews: some View {
-        IntegrentesView()
+        IntegrentesView().environmentObject(EnvObject)
     }
 }

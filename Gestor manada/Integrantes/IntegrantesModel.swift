@@ -21,17 +21,70 @@ extension Date {
     }
 }
 
-enum Etapa: String, Codable {
+public enum Etapa: String, Codable {
     case pataTierna = "Pata Tierna"
     case rastreador = "Rastreador"
     case saltador = "Saltador"
     case cazador = "Cazador"
 }
 
+enum Seisena: String, Codable {
+    case negra = "Seisena Negra"
+    case blanca = "Seisena Blanca"
+    case parda = "Seisena Parda"
+    case gris = "Seisena Gris"
+}
+
+enum EspecialidadNombre: String, Codable {
+    case arte = "Arte"
+    case ciencia = "Ciencia y tecnología"
+    case deporte = "Deportes"
+    case fe = "Fe"
+    case naturaleza = "Vida en la Naturaleza"
+    case servicio = "Servicio"
+    
+}
+
+
+struct Especialidad: Codable, Hashable {
+    var especialidad: EspecialidadNombre
+    var valor: Int
+}
+
+struct ContactoEmergencia: Codable, Hashable {
+    var nombre: String
+    var numero: String
+}
+
 struct Integrante: Codable, Identifiable, Hashable {
+    static func == (lhs: Integrante, rhs: Integrante) -> Bool {
+        return lhs.nombre == rhs.nombre
+    }
+    
     @DocumentID var id: String?
     var nombre: String;
-    var fechaNacimiento: Date;
-    var promesa: Bool;
-    var etapa: Etapa;
+    var nombreCaza: String?
+    var fechaNacimiento: Date
+    var promesa: Bool = false
+    var etapa: Etapa
+    var carnetizado: Bool = false
+    var seisena: Seisena = .negra
+    var especialidades: [Especialidad]?
+    var contactoEmergencia: ContactoEmergencia = ContactoEmergencia(nombre: "", numero: "")
 }
+
+public let etapaEdad: [Int: Etapa] = [
+    0: .pataTierna,
+    1: .pataTierna,
+    2: .pataTierna,
+    3: .pataTierna,
+    4: .pataTierna,
+    5: .pataTierna,
+    6: .pataTierna,
+    7: .pataTierna,
+    8: .saltador,
+    9: .saltador,
+    10: .rastreador,
+    11: .cazador,
+    12: .cazador,
+]

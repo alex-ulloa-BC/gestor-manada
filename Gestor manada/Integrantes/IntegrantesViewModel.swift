@@ -14,6 +14,7 @@ import SwiftUI
 class IntegrantesViewModel: ObservableObject {
     static private let integrantesCollection = "integrantes"
     @Published var integrantes = [Integrante]()
+    @Published var integranteNuevo: Integrante = Integrante(nombre: "", fechaNacimiento: Date(), etapa: .pataTierna, seisena: .blanca)
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
     private let baseQuery: Query = Firestore.firestore().collection(integrantesCollection).limit(to: 50)
@@ -79,9 +80,22 @@ class IntegrantesViewModel: ObservableObject {
     }
     
     
-    func addIntegrante(integrante: Integrante) {
+    func addIntegrante() {
         do {
-            try db.collection(IntegrantesViewModel.integrantesCollection).addDocument(from: integrante)
+            if let id = integranteNuevo.id {
+                if let integranteDuplicado = integrantes.first(where: {$0.nombre == integranteNuevo.nombre}) {
+                    if integranteDuplicado.id != id {
+                        return
+                    }
+                }
+                try db.collection(IntegrantesViewModel.integrantesCollection).document(id).setData(from: integranteNuevo)
+            } else {
+                if integrantes.first(where: {$0.nombre == integranteNuevo.nombre}) != nil {
+                    return
+                }
+                try db.collection(IntegrantesViewModel.integrantesCollection).addDocument(from: integranteNuevo)
+            }
+            
         } catch {
             print(error)
         }

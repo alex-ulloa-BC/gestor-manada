@@ -21,6 +21,8 @@
 		D52F14042A1B08FE007BC437 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D52F14032A1B08FE007BC437 /* GoogleService-Info.plist */; };
 		D52F14062A1B1EE5007BC437 /* IntegranteInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52F14052A1B1EE5007BC437 /* IntegranteInfo.swift */; };
 		D52F14082A1B2BE2007BC437 /* IntegranteNuevo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52F14072A1B2BE2007BC437 /* IntegranteNuevo.swift */; };
+		D54097762A1BD15700EA8803 /* InfoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54097752A1BD15700EA8803 /* InfoRow.swift */; };
+		D54097782A1BD43600EA8803 /* InfoSeisena.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54097772A1BD43600EA8803 /* InfoSeisena.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		D52F14032A1B08FE007BC437 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D52F14052A1B1EE5007BC437 /* IntegranteInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegranteInfo.swift; sourceTree = "<group>"; };
 		D52F14072A1B2BE2007BC437 /* IntegranteNuevo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegranteNuevo.swift; sourceTree = "<group>"; };
+		D54097752A1BD15700EA8803 /* InfoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoRow.swift; sourceTree = "<group>"; };
+		D54097772A1BD43600EA8803 /* InfoSeisena.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoSeisena.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,7 @@
 		D50994FC2A1AF79D00CB5035 /* Gestor manada */ = {
 			isa = PBXGroup;
 			children = (
+				D54097742A1BD12300EA8803 /* Components */,
 				D509950E2A1AFC9A00CB5035 /* Actividades */,
 				D509950D2A1AFBD800CB5035 /* Integrantes */,
 				D50994FD2A1AF79D00CB5035 /* Gestor_manadaApp.swift */,
@@ -108,6 +113,15 @@
 				D509950F2A1AFCAC00CB5035 /* ActividadesView.swift */,
 			);
 			path = Actividades;
+			sourceTree = "<group>";
+		};
+		D54097742A1BD12300EA8803 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D54097752A1BD15700EA8803 /* InfoRow.swift */,
+				D54097772A1BD43600EA8803 /* InfoSeisena.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,10 +207,12 @@
 				D50995102A1AFCAC00CB5035 /* ActividadesView.swift in Sources */,
 				D50995002A1AF79D00CB5035 /* ContentView.swift in Sources */,
 				D50995122A1AFE3900CB5035 /* IntegrantesModel.swift in Sources */,
+				D54097782A1BD43600EA8803 /* InfoSeisena.swift in Sources */,
 				D50994FE2A1AF79D00CB5035 /* Gestor_manadaApp.swift in Sources */,
 				D509950C2A1AFBCD00CB5035 /* IntegrentesView.swift in Sources */,
 				D52F14082A1B2BE2007BC437 /* IntegranteNuevo.swift in Sources */,
 				D52F14022A1B055A007BC437 /* IntegrantesViewModel.swift in Sources */,
+				D54097762A1BD15700EA8803 /* InfoRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,7 +341,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gestor manada/Preview Content\"";
-				DEVELOPMENT_TEAM = LP5TV234W7;
+				DEVELOPMENT_TEAM = DX25955AK5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -354,7 +370,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gestor manada/Preview Content\"";
-				DEVELOPMENT_TEAM = LP5TV234W7;
+				DEVELOPMENT_TEAM = DX25955AK5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

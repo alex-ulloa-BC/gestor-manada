@@ -8,17 +8,13 @@
 import SwiftUI
 
 struct IntegranteNuevo: View {
-    @State var nombre: String = ""
-    @State var fechaNacimiento: Date = Date()
-    @State var promesa: Bool = false
-    @State var etapa: Etapa = .pataTierna
-    private let integrantesViewModel = IntegrantesViewModel()
+    @EnvironmentObject var integrantesViewModel: IntegrantesViewModel
+    @State var nombreCaza: String = ""
+    
     var handleClose: () -> Void
     
     func handleSave() {
-        let nuevoIntegrante = Integrante(nombre: nombre, fechaNacimiento: fechaNacimiento, promesa: promesa, etapa: etapa)
-        
-        integrantesViewModel.addIntegrante(integrante: nuevoIntegrante)
+        integrantesViewModel.addIntegrante()
         
         handleClose()
     }
@@ -27,40 +23,59 @@ struct IntegranteNuevo: View {
         VStack{
             Form {
                 Section("Datos del lobato") {
-                    TextField("Nombre", text: $nombre)
-                    DatePicker("Fecha de Nacimiento", selection: $fechaNacimiento, in: ...Date(), displayedComponents: .date)
-                    Toggle("Promesa", isOn: $promesa)
+                    TextField("Nombre", text: $integrantesViewModel.integranteNuevo.nombre)
+                    TextField("Nombre de Caza", text: $nombreCaza)
+                    DatePicker("Fecha de Nacimiento", selection: $integrantesViewModel.integranteNuevo.fechaNacimiento, in: ...Date(), displayedComponents: .date)
+                    Toggle("Promesa", isOn: $integrantesViewModel.integranteNuevo.promesa)
+                    Toggle("Carnetizado", isOn: $integrantesViewModel.integranteNuevo.carnetizado)
                     
-                    Picker("Etapa", selection: $etapa) {
+                    Picker("Etapa", selection: $integrantesViewModel.integranteNuevo.etapa) {
                         Text(Etapa.pataTierna.rawValue).tag(Etapa.pataTierna)
                         Text(Etapa.saltador.rawValue).tag(Etapa.saltador)
                         Text(Etapa.rastreador.rawValue).tag(Etapa.rastreador)
                         Text(Etapa.cazador.rawValue).tag(Etapa.cazador)
                     }
+                    
+                    Picker("Seisena", selection: $integrantesViewModel.integranteNuevo.seisena) {
+                        InfoSeisena(seisena: .blanca).tag(Seisena.blanca)
+                        InfoSeisena(seisena: .negra).tag(Seisena.negra)
+                        InfoSeisena(seisena: .gris).tag(Seisena.gris)
+                        InfoSeisena(seisena: .parda).tag(Seisena.parda)
+                    }
                 }
                 
-            }
-            
-            HStack {
-                Button(action: handleSave) {
-                    Text("Guardar")
-                }.frame(width: .infinity)
-                    .background(.black)
-                    .buttonStyle(.borderedProminent)
+                Section("Contacto de emergencia") {
+                    TextField("Nombre", text: $integrantesViewModel.integranteNuevo.contactoEmergencia.nombre)
+                    TextField("Teléfono", text: $integrantesViewModel.integranteNuevo.contactoEmergencia.numero)
+                        .textContentType(.telephoneNumber)
+                        .keyboardType(.phonePad)
+                }
                 
-                Button(action: handleClose) {
-                    Text("Cancelar")
-                }.buttonStyle(.bordered).foregroundColor(.red)
+                Section {
+                    Button(action: handleSave) {
+                        Text("Guardar")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    
+                    Button(action: handleClose) {
+                        Text("Cancelar")
+                            .frame(maxWidth: .infinity)
+                    }.buttonStyle(.bordered)
+                        .foregroundColor(.red)
+                }
             }
         }
-        
     }
 }
 
 struct IntegranteNuevo_Previews: PreviewProvider {
+    static let EnvObject = IntegrantesViewModel()
+
+    @State var integranteNuevo = Integrante(nombre: "", fechaNacimiento: Date(), etapa: .pataTierna)
     static var previews: some View {
-        IntegranteNuevo() {
+        IntegranteNuevo {
             print("aaa")
-        }
+        }.environmentObject(EnvObject)
     }
 }
