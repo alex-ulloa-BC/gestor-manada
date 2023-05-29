@@ -40,7 +40,7 @@ struct ActividadesView: View {
                 }
                 
                 Button(action: agregarActividad) {
-                    Text("Agregar Atividad")
+                    Text("Agregar Actividad")
                         .frame(maxWidth: .infinity)
                 }.buttonStyle(.borderedProminent)
                     .padding()
