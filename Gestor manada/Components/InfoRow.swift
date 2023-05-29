@@ -21,11 +21,7 @@ struct InfoRow: View {
         }
         .padding(.horizontal)
         .padding(.top)
-        
-        Divider()
-            .frame(height: 1)
-            .padding(.horizontal)
-            .background(.gray)
+        DividerAdjusted()
     }
 }
 

@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 enum TipoActividad: String, Codable {
     case aventura = "Aventura"
@@ -16,11 +17,19 @@ enum TipoActividad: String, Codable {
     case cultural = "Cultural"
     case servicio = "Servicios y Espiritualidad"
 }
+struct ActividadFirestore: Codable, Identifiable, Hashable {
+    @DocumentID var id: String?
+    var nombre: String
+    var fecha: Date
+    var tipo: TipoActividad
+    var participantes = [DocumentReference]()
+}
+
 
 struct Actividad: Codable, Identifiable, Hashable {
     @DocumentID var id: String?
     var nombre: String
     var fecha: Date
     var tipo: TipoActividad
-    var participantes: [Integrante]?
+    var participantes = [Integrante]()
 }

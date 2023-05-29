@@ -23,7 +23,7 @@ struct ContentView: View {
                     Text("Actividades")
                 }
             
-            ActividadesView()
+            InsigniasView()
                 .tabItem{
                     Image(systemName: "flag.checkered.2.crossed")
                     Text("Insignias")

@@ -48,19 +48,19 @@ struct IntegranteInfo: View {
     
     var body: some View {
         
-            VStack {
-                HStack {
-                    Text(integrante.nombre)
-                        .font(.title)
-                    
-                    Spacer()
-                    
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                }.padding()
-                    .background(.gray)
-                ScrollView {
+        VStack {
+            HStack {
+                Text(integrante.nombre)
+                    .font(.title)
+                
+                Spacer()
+                
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+            }.padding()
+                .background(.gray)
+            ScrollView {
                 
                 Group {
                     InfoRow(label: "Nombre de Caza", value: integrante.nombreCaza ?? "")
@@ -79,10 +79,7 @@ struct IntegranteInfo: View {
                 .padding(.horizontal)
                 .padding(.top)
                 
-                Divider()
-                    .frame(height: 1)
-                    .padding(.horizontal)
-                    .background(.gray)
+                DividerAdjusted()
                 
                 HStack {
                     Text("Seisena")
@@ -92,10 +89,7 @@ struct IntegranteInfo: View {
                 }.padding(.horizontal)
                     .padding(.top)
                 
-                Divider()
-                    .frame(height: 1)
-                    .padding(.horizontal)
-                    .background(.gray)
+                DividerAdjusted()
                 
                 
                 Group {
@@ -126,10 +120,7 @@ struct IntegranteInfo: View {
                         }
                     }
                     
-                    Divider()
-                        .frame(height: 1)
-                        .padding(.horizontal)
-                        .background(.gray)
+                    DividerAdjusted()
                 }
                 
                 Spacer()

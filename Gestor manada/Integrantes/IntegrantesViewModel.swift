@@ -12,7 +12,7 @@ import FirebaseFirestore
 import SwiftUI
 
 class IntegrantesViewModel: ObservableObject {
-    static private let integrantesCollection = "integrantes"
+    static public let integrantesCollection = "integrantes"
     @Published var integrantes = [Integrante]()
     @Published var integranteNuevo: Integrante = Integrante(nombre: "", fechaNacimiento: Date(), etapa: .pataTierna, seisena: .blanca)
     private var db = Firestore.firestore()

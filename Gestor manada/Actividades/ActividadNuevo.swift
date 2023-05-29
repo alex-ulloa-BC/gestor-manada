@@ -7,13 +7,26 @@
 
 import SwiftUI
 
+
 struct ActividadNuevo: View {
     @EnvironmentObject var actividadesViewModel: ActividadesViewModel
+    @ObservedObject var integrantesViewModel = IntegrantesViewModel()
+    @State var participantes = [Integrante]()
+    
     var handleClose: () -> Void
     
     func handleSave() {
+        actividadesViewModel.actividadNueva.participantes = participantes
         actividadesViewModel.addActividad()
         handleClose()
+    }
+    
+    func handleChangeIntegrante(integrante: Integrante, valor: Bool) {
+        if valor {
+            participantes.append(integrante)
+        } else {
+            participantes.removeAll(where: {$0 == integrante})
+        }
     }
     
     var body: some View {
@@ -35,6 +48,13 @@ struct ActividadNuevo: View {
                 }
                 
                 Section("Participantes") {
+                    ForEach(actividadesViewModel.integrantesViewModel.integrantes) { i in
+                        HStack {
+                            IntegranteActivoView(integrante: i, cambiarValor:  { nuevoValor in
+                                handleChangeIntegrante(integrante: i, valor: nuevoValor)
+                            }, isActivo: participantes.contains(i))
+                        }
+                    }
                     
                 }
                 
@@ -52,6 +72,9 @@ struct ActividadNuevo: View {
                         .foregroundColor(.red)
                 }
             }
+        }.onAppear {
+            let query = integrantesViewModel.query(nombre: nil, promesa: nil, etapa: nil, sortOption: nil)
+            integrantesViewModel.subscribe(to: query)
         }
     }
 }
