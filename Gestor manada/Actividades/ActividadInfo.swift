@@ -60,15 +60,15 @@ struct ActividadInfo: View {
                     ForEach(Array(actividad.participantes.enumerated()), id: \.offset) { (index,p) in
                         Text(p.nombre)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                     }
-                    DividerAdjusted()
+                    
                 }
                 .padding(.horizontal)
                 .foregroundColor(.gray)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-                
+                DividerAdjusted()
                 Spacer()
                 
                 Button(action: handleEdit) {

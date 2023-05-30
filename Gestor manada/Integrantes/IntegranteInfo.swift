@@ -137,7 +137,7 @@ struct IntegranteInfo: View {
                 alignment: .topLeading
             )
             .sheet(isPresented: $isShowingSheet, onDismiss: handleCloseSheet) {
-                IntegranteNuevo(handleClose: handleCloseSheet)
+                IntegranteNuevo(nombreCaza: integrante.nombreCaza ?? "", handleClose: handleCloseSheet)
             }
         }
     }
@@ -145,6 +145,6 @@ struct IntegranteInfo: View {
 
 struct IntegranteInfo_Previews: PreviewProvider {
     static var previews: some View {
-        IntegranteInfo(integrante: Integrante(nombre: "Alex Ulloa", fechaNacimiento: Date(value: "2022/02/02")!, promesa: true, etapa: .cazador, carnetizado: false, seisena: .blanca, contactoEmergencia: ContactoEmergencia(nombre: "Juanita Perez", numero: "0987607014")))
+        IntegranteInfo(integrante: Integrante(nombre: "Alex Ulloa", nombreCaza: "Akela", fechaNacimiento: Date(value: "2022/02/02")!, promesa: true, etapa: .cazador, carnetizado: false, seisena: .blanca, contactoEmergencia: ContactoEmergencia(nombre: "Juanita Perez", numero: "0987607014")))
     }
 }

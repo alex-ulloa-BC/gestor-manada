@@ -14,6 +14,7 @@ struct IntegranteNuevo: View {
     var handleClose: () -> Void
     
     func handleSave() {
+        integrantesViewModel.integranteNuevo.nombreCaza = nombreCaza
         integrantesViewModel.addIntegrante()
         handleClose()
     }

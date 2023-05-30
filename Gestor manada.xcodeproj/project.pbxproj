@@ -32,6 +32,8 @@
 		D59DACF62A2516D90030ADC6 /* underConstruction.json in Resources */ = {isa = PBXBuildFile; fileRef = D59DACF52A2516D90030ADC6 /* underConstruction.json */; };
 		D59DACF82A2516F70030ADC6 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59DACF72A2516F70030ADC6 /* LottieView.swift */; };
 		D59DACFB2A2518430030ADC6 /* InsigniasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59DACFA2A2518430030ADC6 /* InsigniasView.swift */; };
+		D59DACFD2A253E520030ADC6 /* InsigniasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59DACFC2A253E520030ADC6 /* InsigniasModel.swift */; };
+		D5DCE67B2A269D4800874703 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = D5DCE67A2A269D4800874703 /* FirebaseMessaging */; };
 		D5FB7B612A1EAF4F0041A204 /* IntegranteActivoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FB7B602A1EAF4F0041A204 /* IntegranteActivoView.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +60,9 @@
 		D59DACF52A2516D90030ADC6 /* underConstruction.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = underConstruction.json; sourceTree = "<group>"; };
 		D59DACF72A2516F70030ADC6 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		D59DACFA2A2518430030ADC6 /* InsigniasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsigniasView.swift; sourceTree = "<group>"; };
+		D59DACFC2A253E520030ADC6 /* InsigniasModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsigniasModel.swift; sourceTree = "<group>"; };
+		D5DCE67C2A269D9C00874703 /* Gestor-manada-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Gestor-manada-Info.plist"; sourceTree = SOURCE_ROOT; };
+		D5DCE67D2A269DC800874703 /* Gestor manada.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Gestor manada.entitlements"; sourceTree = "<group>"; };
 		D5FB7B602A1EAF4F0041A204 /* IntegranteActivoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegranteActivoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,6 +73,7 @@
 			files = (
 				D50995192A1B048000CB5035 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				D50995172A1B048000CB5035 /* FirebaseDatabaseSwift in Frameworks */,
+				D5DCE67B2A269D4800874703 /* FirebaseMessaging in Frameworks */,
 				D50995152A1B048000CB5035 /* FirebaseDatabase in Frameworks */,
 				D59DACF32A2516460030ADC6 /* Lottie in Frameworks */,
 			);
@@ -81,6 +87,7 @@
 			children = (
 				D50994FC2A1AF79D00CB5035 /* Gestor manada */,
 				D50994FB2A1AF79D00CB5035 /* Products */,
+				D5DCE6792A269D4800874703 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,6 +102,8 @@
 		D50994FC2A1AF79D00CB5035 /* Gestor manada */ = {
 			isa = PBXGroup;
 			children = (
+				D5DCE67D2A269DC800874703 /* Gestor manada.entitlements */,
+				D5DCE67C2A269D9C00874703 /* Gestor-manada-Info.plist */,
 				D59DACF92A2518320030ADC6 /* Insignias */,
 				D59DACF42A2516C50030ADC6 /* Animations */,
 				D54097742A1BD12300EA8803 /* Components */,
@@ -165,8 +174,16 @@
 			isa = PBXGroup;
 			children = (
 				D59DACFA2A2518430030ADC6 /* InsigniasView.swift */,
+				D59DACFC2A253E520030ADC6 /* InsigniasModel.swift */,
 			);
 			path = Insignias;
+			sourceTree = "<group>";
+		};
+		D5DCE6792A269D4800874703 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +207,7 @@
 				D50995162A1B048000CB5035 /* FirebaseDatabaseSwift */,
 				D50995182A1B048000CB5035 /* FirebaseFirestoreCombine-Community */,
 				D59DACF22A2516460030ADC6 /* Lottie */,
+				D5DCE67A2A269D4800874703 /* FirebaseMessaging */,
 			);
 			productName = "Gestor manada";
 			productReference = D50994FA2A1AF79D00CB5035 /* Gestor manada.app */;
@@ -252,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D52F14062A1B1EE5007BC437 /* IntegranteInfo.swift in Sources */,
+				D59DACFD2A253E520030ADC6 /* InsigniasModel.swift in Sources */,
 				D50995102A1AFCAC00CB5035 /* ActividadesView.swift in Sources */,
 				D50995002A1AF79D00CB5035 /* ContentView.swift in Sources */,
 				D51224622A1C231C0004D899 /* ActividadNuevo.swift in Sources */,
@@ -394,12 +413,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Gestor manada/Gestor manada.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Gestor manada/Preview Content\"";
 				DEVELOPMENT_TEAM = DX25955AK5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Gestor-manada-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = FirebaseAppDelegateProxyEnabled;
+				INFOPLIST_KEY_LSApplicationCategoryType = FirebaseAppDelegateProxyEnabled;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -409,7 +432,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "alex.Gestor-manada";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -423,12 +446,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Gestor manada/Gestor manada.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Gestor manada/Preview Content\"";
 				DEVELOPMENT_TEAM = DX25955AK5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Gestor-manada-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = FirebaseAppDelegateProxyEnabled;
+				INFOPLIST_KEY_LSApplicationCategoryType = FirebaseAppDelegateProxyEnabled;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -438,7 +465,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "alex.Gestor-manada";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -509,6 +536,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D59DACF12A2516460030ADC6 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		D5DCE67A2A269D4800874703 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D50995132A1B048000CB5035 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
