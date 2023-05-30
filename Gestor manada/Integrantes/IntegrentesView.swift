@@ -10,6 +10,7 @@ import SwiftUI
 struct IntegrentesView: View {
     @ObservedObject var integrantesViewModel = IntegrantesViewModel()
     @State private var isShowingSheet = false
+    @State private var filtro = ""
     
     func agregarIntegrante() {
         integrantesViewModel.integranteNuevo = Integrante(
@@ -36,7 +37,12 @@ struct IntegrentesView: View {
                 .bold()
                 .font(.title2)
                 .foregroundColor(.mint)
-            List(integrantesViewModel.integrantes.sorted {$0.nombre < $1.nombre}) { integrante in
+            
+            TextField("Filtrar...", text: $filtro)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal)
+            
+            List(integrantesViewModel.integrantes.filter{$0.nombre.uppercased().contains(filtro.isEmpty ? " " :  filtro.uppercased())}.sorted {$0.nombre < $1.nombre}) { integrante in
                 NavigationLink(integrante.nombre, value: integrante)
                 
             }
