@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct IntegrentesView: View {
-    @ObservedObject var integrantesViewModel = IntegrantesViewModel()
+    @EnvironmentObject var integrantesViewModel: IntegrantesViewModel
     @State private var isShowingSheet = false
     @State private var filtro = ""
     
@@ -47,8 +47,8 @@ struct IntegrentesView: View {
                 
             }
             .navigationDestination(for: Integrante.self) {integrante in
-                VStack {
-                    IntegranteInfo(integrante: integrante)
+                VStack {                    IntegranteInfo(integrante: integrante)
+                        .environmentObject(integrantesViewModel) 
                 }
             }
             
@@ -69,7 +69,8 @@ struct IntegrentesView: View {
         .sheet(isPresented: $isShowingSheet, onDismiss: handleCloseSheet) {
             IntegranteNuevo(handleClose: handleCloseSheet)
         }
-        .environmentObject(integrantesViewModel)
+        
+        
     }
 }
 

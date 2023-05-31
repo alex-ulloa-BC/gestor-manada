@@ -35,7 +35,7 @@ enum Seisena: String, Codable {
     case gris = "Seisena Gris"
 }
 
-enum EspecialidadNombre: String, Codable {
+public enum EspecialidadNombre: String, Codable {
     case arte = "Arte"
     case ciencia = "Ciencia y tecnología"
     case deporte = "Deportes"
@@ -88,3 +88,13 @@ public let etapaEdad: [Int: Etapa] = [
     11: .cazador,
     12: .cazador,
 ]
+
+public let TodasLasEspecialidades: [EspecialidadNombre] = [
+    .arte,
+    .ciencia,
+    .deporte,
+    .fe,
+    .naturaleza,
+    .servicio
+]
+

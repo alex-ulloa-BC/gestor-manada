@@ -32,7 +32,7 @@ class IntegrantesViewModel: ObservableObject {
     
     func subscribe(to query: Query) {
         if listener == nil {
-            listener = query.addSnapshotListener { [weak self] querySnapshot, error in
+            listener = query.addSnapshotListener(includeMetadataChanges: true) { [weak self] querySnapshot, error in
                 guard let documents = querySnapshot?.documents else {
                     print("Error fetching documents: \(error!)")
                     return
@@ -95,6 +95,50 @@ class IntegrantesViewModel: ObservableObject {
                 }
                 try db.collection(IntegrantesViewModel.integrantesCollection).addDocument(from: integranteNuevo)
             }
+            
+        } catch {
+            print(error)
+        }
+    }
+    
+    func agregarEspecialidad(integrante: Integrante, especialidad: Especialidad) {
+        var nuevo = integrante
+        guard let id = integrante.id else {
+            return
+        }
+        
+        if let especialidades = integranteNuevo.especialidades {
+            if let mismaEspecialidad = especialidades.first(where: {$0.especialidad == especialidad.especialidad}) {
+                
+                if mismaEspecialidad.valor == especialidad.valor {
+                    // le esta quitando
+                    nuevo.especialidades = especialidades.filter({$0 != especialidad})
+                    
+                } else {
+                    // le esta cambiando el valor
+                    guard let index = especialidades.firstIndex(where: {$0.especialidad == especialidad.especialidad} ) else {
+                        return
+                    }
+                    nuevo.especialidades?[index] = especialidad
+                }
+                
+            } else {
+                // no tiene esta especialidades
+                nuevo.especialidades?.append(especialidad)
+            }
+        } else {
+            // no tiene, se agrega el array con esta
+            nuevo.especialidades = [especialidad]
+        }
+        
+        do {
+            try db.collection(IntegrantesViewModel.integrantesCollection).document(id).setData(from: nuevo)
+            
+            guard let indexIntegrante = integrantes.firstIndex(of: integrante) else {
+                return
+            }
+            
+            integrantes[indexIntegrante] = nuevo
             
         } catch {
             print(error)

@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var integrantesViewModel = IntegrantesViewModel()
     
     var body: some View {
         TabView {
             IntegrentesView()
+                .environmentObject(integrantesViewModel) 
                 .tabItem{
                     Image(systemName: "person.3.fill")
                     Text("Integrantes")
@@ -28,6 +30,14 @@ struct ContentView: View {
                     Image(systemName: "flag.checkered.2.crossed")
                     Text("Insignias")
                 }
+        }
+        .environmentObject(integrantesViewModel)
+        .onAppear {
+            let query = integrantesViewModel.query(nombre: nil, promesa: nil, etapa: nil, sortOption: nil)
+            integrantesViewModel.subscribe(to: query)
+        }
+        .onDisappear {
+            integrantesViewModel.unsubscribe()
         }
     }
 }

@@ -46,6 +46,23 @@ struct IntegranteInfo: View {
         isShowingSheet = false
     }
     
+    func getEspecialidadValor(i: Int, especialidades: [Especialidad]?) -> Int {
+        
+        var valor = -1
+        
+        if let especialidades = integrante.especialidades {
+            if let especialidad = especialidades.first(where: {$0.especialidad == TodasLasEspecialidades[i]}) {
+                valor = especialidad.valor
+            }
+        }
+        
+        return valor
+    }
+    
+    func handleEspecialidadTapped(especialidad: Especialidad) {
+        integrantesViewModel.agregarEspecialidad(integrante: integrante, especialidad: especialidad)
+    }
+    
     var body: some View {
         
         VStack {
@@ -64,7 +81,8 @@ struct IntegranteInfo: View {
                 
                 Group {
                     InfoRow(label: "Nombre de Caza", value: integrante.nombreCaza ?? "")
-                    InfoRow(label: "Carnetizado", value: integrante.carnetizado.description)
+                    InfoBoolRow(label: "Carnetizado", value: integrante.carnetizado)
+                    InfoBoolRow(label: "Promesa", value: integrante.promesa)
                     InfoRow(label: "Fecha Nacimiento", value: integrante.fechaNacimiento.formatted(date: .abbreviated, time: .omitted))
                     InfoRow(label: "Edad", value: "\(getEdad()) años")
                 }
@@ -123,6 +141,17 @@ struct IntegranteInfo: View {
                     DividerAdjusted()
                 }
                 
+                Group {
+                    
+                    ForEach(TodasLasEspecialidades.indices, id: \.self) { i in
+                        EspecialidadView(especialidad: Especialidad(especialidad: TodasLasEspecialidades[i], valor: getEspecialidadValor(i: i, especialidades: integrante.especialidades))) {
+                            tapped in
+                            handleEspecialidadTapped(especialidad: Especialidad(especialidad: TodasLasEspecialidades[i], valor: tapped))
+                        }
+                    }
+                    
+                }
+                
                 Spacer()
                 
                 Button(action: handleEdit) {
@@ -144,7 +173,9 @@ struct IntegranteInfo: View {
 }
 
 struct IntegranteInfo_Previews: PreviewProvider {
+    static let especialidades = [Especialidad(especialidad: .arte, valor: 1)]
+    static let contactoEmergencia = ContactoEmergencia(nombre: "Juanita Perez", numero: "0987607014")
     static var previews: some View {
-        IntegranteInfo(integrante: Integrante(nombre: "Alex Ulloa", nombreCaza: "Akela", fechaNacimiento: Date(value: "2022/02/02")!, promesa: true, etapa: .cazador, carnetizado: false, seisena: .blanca, contactoEmergencia: ContactoEmergencia(nombre: "Juanita Perez", numero: "0987607014")))
+        IntegranteInfo(integrante: Integrante(nombre: "Alex Ulloa", nombreCaza: "Akela", fechaNacimiento: Date(value: "2022/02/02")!, promesa: true, etapa: .cazador, carnetizado: false, seisena: .blanca, especialidades: especialidades, contactoEmergencia: contactoEmergencia))
     }
 }
