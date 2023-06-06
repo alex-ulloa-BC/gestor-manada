@@ -9,7 +9,6 @@
 import Combine
 import FirebaseFirestoreSwift
 import FirebaseFirestore
-import SwiftUI
 
 class IntegrantesViewModel: ObservableObject {
     static public let integrantesCollection = "integrantes"
@@ -76,7 +75,7 @@ class IntegrantesViewModel: ObservableObject {
             filteredQuery = filteredQuery.order(by: sortOption)
         }
         
-        return filteredQuery
+        return filteredQuery.order(by: "nombre")
     }
     
     
@@ -101,45 +100,17 @@ class IntegrantesViewModel: ObservableObject {
         }
     }
     
-    func agregarEspecialidad(integrante: Integrante, especialidad: Especialidad) {
-        var nuevo = integrante
-        guard let id = integrante.id else {
-            return
-        }
-        
-        if let especialidades = integranteNuevo.especialidades {
-            if let mismaEspecialidad = especialidades.first(where: {$0.especialidad == especialidad.especialidad}) {
-                
-                if mismaEspecialidad.valor == especialidad.valor {
-                    // le esta quitando
-                    nuevo.especialidades = especialidades.filter({$0 != especialidad})
-                    
-                } else {
-                    // le esta cambiando el valor
-                    guard let index = especialidades.firstIndex(where: {$0.especialidad == especialidad.especialidad} ) else {
-                        return
-                    }
-                    nuevo.especialidades?[index] = especialidad
-                }
-                
-            } else {
-                // no tiene esta especialidades
-                nuevo.especialidades?.append(especialidad)
-            }
-        } else {
-            // no tiene, se agrega el array con esta
-            nuevo.especialidades = [especialidad]
-        }
-        
+    func agregarEspecialidad(id: String, especialidades: Especialidades) {
         do {
-            try db.collection(IntegrantesViewModel.integrantesCollection).document(id).setData(from: nuevo)
             
-            guard let indexIntegrante = integrantes.firstIndex(of: integrante) else {
-                return
+            let especialidadesEncoded = try Firestore.Encoder().encode(especialidades)
+            
+            db.collection(IntegrantesViewModel.integrantesCollection).document(id).updateData(["especialidades": especialidadesEncoded]) {
+                err in
+                if let err = err {
+                    print(err)
+                }
             }
-            
-            integrantes[indexIntegrante] = nuevo
-            
         } catch {
             print(error)
         }

@@ -9,11 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var integrantesViewModel = IntegrantesViewModel()
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
+        
         TabView {
             IntegrentesView()
-                .environmentObject(integrantesViewModel) 
+                .environmentObject(integrantesViewModel)
                 .tabItem{
                     Image(systemName: "person.3.fill")
                     Text("Integrantes")
@@ -30,6 +32,22 @@ struct ContentView: View {
                     Image(systemName: "flag.checkered.2.crossed")
                     Text("Insignias")
                 }
+        }
+        .onAppear {
+            let color: Color = colorScheme == .dark ? .black : .white
+            
+            let appearanceStandard = UITabBarAppearance()
+            appearanceStandard.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+            appearanceStandard.backgroundColor = UIColor(color.opacity(0.2))
+            
+            // Use this appearance when scrolled all the way up:
+            UITabBar.appearance().scrollEdgeAppearance = appearanceStandard
+            
+           // Use this appearance when scrolling behind the TabView:
+            UITabBar.appearance().standardAppearance = appearanceStandard
+            
+            
+            
         }
         .environmentObject(integrantesViewModel)
         .onAppear {

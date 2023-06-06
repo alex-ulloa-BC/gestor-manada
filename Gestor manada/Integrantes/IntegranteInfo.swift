@@ -10,13 +10,14 @@ import SwiftUI
 struct IntegranteInfo: View {
     @EnvironmentObject var integrantesViewModel: IntegrantesViewModel
     @State var isShowingSheet = false
-    var integrante: Integrante
+    @ObservedObject var integranteViewModel = IntegranteViewModel()
+    var id: String
     
     func getEdad () -> Int {
         let cal = Calendar(identifier: .gregorian)
         guard let years = cal.dateComponents(
             [.year],
-            from: integrante.fechaNacimiento,
+            from: integranteViewModel.integrante.fechaNacimiento,
             to: Date()
         ).year else {
             return 0
@@ -34,40 +35,23 @@ struct IntegranteInfo: View {
     }
     
     func isEtapaRight() -> Bool {
-        return getEtapaDeberia() == integrante.etapa
+        return getEtapaDeberia() == integranteViewModel.integrante.etapa
     }
     
     func handleEdit() {
         isShowingSheet = true
-        integrantesViewModel.integranteNuevo = integrante
+        integrantesViewModel.integranteNuevo = integranteViewModel.integrante
     }
     
     func handleCloseSheet() {
         isShowingSheet = false
     }
     
-    func getEspecialidadValor(i: Int, especialidades: [Especialidad]?) -> Int {
-        
-        var valor = -1
-        
-        if let especialidades = integrante.especialidades {
-            if let especialidad = especialidades.first(where: {$0.especialidad == TodasLasEspecialidades[i]}) {
-                valor = especialidad.valor
-            }
-        }
-        
-        return valor
-    }
-    
-    func handleEspecialidadTapped(especialidad: Especialidad) {
-        integrantesViewModel.agregarEspecialidad(integrante: integrante, especialidad: especialidad)
-    }
-    
     var body: some View {
         
         VStack {
             HStack {
-                Text(integrante.nombre)
+                Text(integranteViewModel.integrante.nombre)
                     .font(.title)
                 
                 Spacer()
@@ -80,10 +64,10 @@ struct IntegranteInfo: View {
             ScrollView {
                 
                 Group {
-                    InfoRow(label: "Nombre de Caza", value: integrante.nombreCaza ?? "")
-                    InfoBoolRow(label: "Carnetizado", value: integrante.carnetizado)
-                    InfoBoolRow(label: "Promesa", value: integrante.promesa)
-                    InfoRow(label: "Fecha Nacimiento", value: integrante.fechaNacimiento.formatted(date: .abbreviated, time: .omitted))
+                    InfoRow(label: "Nombre de Caza", value: integranteViewModel.integrante.nombreCaza ?? "")
+                    InfoBoolRow(label: "Carnetizado", value: integranteViewModel.integrante.carnetizado)
+                    InfoBoolRow(label: "Promesa", value: integranteViewModel.integrante.promesa)
+                    InfoRow(label: "Fecha Nacimiento", value: integranteViewModel.integrante.fechaNacimiento.formatted(date: .abbreviated, time: .omitted))
                     InfoRow(label: "Edad", value: "\(getEdad()) años")
                 }
                 
@@ -91,7 +75,7 @@ struct IntegranteInfo: View {
                     Text("Contacto Emergencia")
                         .foregroundColor(.gray)
                     Spacer()
-                    Link(integrante.contactoEmergencia.nombre, destination: URL(string: "tel:\(integrante.contactoEmergencia.numero)") ?? URL(string: "tel:911")!)
+                    Link(integranteViewModel.integrante.contactoEmergencia.nombre, destination: URL(string: "tel:\(integranteViewModel.integrante.contactoEmergencia.numero)") ?? URL(string: "tel:911")!)
                     
                 }
                 .padding(.horizontal)
@@ -103,19 +87,18 @@ struct IntegranteInfo: View {
                     Text("Seisena")
                         .foregroundColor(.gray)
                     Spacer()
-                    InfoSeisena(seisena: integrante.seisena)
+                    InfoSeisena(seisena: integranteViewModel.integrante.seisena)
                 }.padding(.horizontal)
                     .padding(.top)
                 
                 DividerAdjusted()
-                
                 
                 Group {
                     HStack {
                         Text("Etapa")
                             .foregroundColor(.gray)
                         Spacer()
-                        Text("\(integrante.etapa.rawValue)")
+                        Text("\(integranteViewModel.integrante.etapa.rawValue)")
                         
                     }
                     .padding(.horizontal)
@@ -123,7 +106,7 @@ struct IntegranteInfo: View {
                     
                     
                     HStack(alignment: .center) {
-                        Image(integrante.etapa.rawValue)
+                        Image(integranteViewModel.integrante.etapa.rawValue)
                             .resizable()
                             .frame(width: 100, height: 100)
                             .padding(10)
@@ -137,19 +120,13 @@ struct IntegranteInfo: View {
                                 .bold()
                         }
                     }
-                    
                     DividerAdjusted()
                 }
                 
                 Group {
-                    
                     ForEach(TodasLasEspecialidades.indices, id: \.self) { i in
-                        EspecialidadView(especialidad: Especialidad(especialidad: TodasLasEspecialidades[i], valor: getEspecialidadValor(i: i, especialidades: integrante.especialidades))) {
-                            tapped in
-                            handleEspecialidadTapped(especialidad: Especialidad(especialidad: TodasLasEspecialidades[i], valor: tapped))
-                        }
+                        EspecialidadView(integrante: integranteViewModel.integrante, especialidad: TodasLasEspecialidades[i])
                     }
-                    
                 }
                 
                 Spacer()
@@ -166,16 +143,22 @@ struct IntegranteInfo: View {
                 alignment: .topLeading
             )
             .sheet(isPresented: $isShowingSheet, onDismiss: handleCloseSheet) {
-                IntegranteNuevo(nombreCaza: integrante.nombreCaza ?? "", handleClose: handleCloseSheet)
+                IntegranteNuevo(nombreCaza: integranteViewModel.integrante.nombreCaza ?? "", handleClose: handleCloseSheet)
+            }
+            .onAppear {
+                integranteViewModel.subscribe(id: id)
+            }
+            .onDisappear {
+                integranteViewModel.unsubscribe()
             }
         }
     }
 }
 
 struct IntegranteInfo_Previews: PreviewProvider {
-    static let especialidades = [Especialidad(especialidad: .arte, valor: 1)]
+    static let especialidades = Especialidades()
     static let contactoEmergencia = ContactoEmergencia(nombre: "Juanita Perez", numero: "0987607014")
     static var previews: some View {
-        IntegranteInfo(integrante: Integrante(nombre: "Alex Ulloa", nombreCaza: "Akela", fechaNacimiento: Date(value: "2022/02/02")!, promesa: true, etapa: .cazador, carnetizado: false, seisena: .blanca, especialidades: especialidades, contactoEmergencia: contactoEmergencia))
+        IntegranteInfo(id: "123")
     }
 }

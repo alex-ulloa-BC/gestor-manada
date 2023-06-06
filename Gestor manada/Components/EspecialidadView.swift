@@ -8,25 +8,38 @@
 import SwiftUI
 
 struct EspecialidadView: View {
-    var especialidad: Especialidad
+    @Environment(\.colorScheme) var colorScheme
+    var integrante: Integrante
+    var especialidad: EspecialidadNombre
     let valores = [1,2,3]
     
-    var onClick: (_ i: Int) -> Void
+    func getGrayScale(valor: Int) -> Double {
+        guard let valorEspecialidad = integrante.especialidades?[especialidad] else {
+            return 0.85
+        }
+        
+        if valorEspecialidad > valor {
+            return 0
+        }
+        
+        return 0.85
+    }
+    
+    func getShadowColor() -> Color {
+        return colorScheme == .dark ? .gray : .black
+    }
     
     var body: some View {
         VStack {
-            Text(especialidad.especialidad.rawValue)
+            Text(especialidad.rawValue)
             HStack(spacing: 20) {
                 ForEach(valores.indices, id: \.self) { i in
-                    Image(especialidad.especialidad.rawValue+i.description)
+                    Image(especialidad.rawValue+i.description)
                         .resizable()
                         .frame(width: 100, height: 100)
                         .clipShape(Diamond())
-                        .grayscale(i > especialidad.valor ? 0.75 : 0)
-                        .shadow(color: Color.black.opacity(0.8), radius: 5, x: 0, y: 10)
-                        .onTapGesture {
-                            onClick(i)
-                        }
+                        .grayscale(getGrayScale(valor: i))
+                        .shadow(color: getShadowColor().opacity(0.4), radius: 10, x: -5, y: 5)
                 }
             }
         }
@@ -34,9 +47,9 @@ struct EspecialidadView: View {
 }
 
 struct EspecialidadView_Previews: PreviewProvider {
+    static let especialidades = Especialidades(arte: 1, ciencia: 2, deporte: 0, fe: 0, naturaleza: 0, servicio: 0)
+    
     static var previews: some View {
-        EspecialidadView(especialidad: Especialidad(especialidad: .arte, valor: 1)) { i in
-            print(i)
-        }
+        EspecialidadView(integrante: Integrante(nombre: "", fechaNacimiento: Date(), etapa: .pataTierna, especialidades: especialidades), especialidad: .arte)
     }
 }

@@ -21,7 +21,6 @@ struct IntegrentesView: View {
             etapa: .pataTierna,
             carnetizado: false,
             seisena: .blanca,
-            especialidades: nil,
             contactoEmergencia: ContactoEmergencia(nombre: "", numero: "")
         )
         isShowingSheet = true
@@ -42,12 +41,12 @@ struct IntegrentesView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
             
-            List(integrantesViewModel.integrantes.filter{$0.nombre.uppercased().contains(filtro.isEmpty ? " " :  filtro.uppercased())}.sorted {$0.nombre < $1.nombre}) { integrante in
+            List(integrantesViewModel.integrantes.filter{$0.nombre.uppercased().contains(filtro.isEmpty ? " " :  filtro.uppercased())}) { integrante in
                 NavigationLink(integrante.nombre, value: integrante)
                 
             }
             .navigationDestination(for: Integrante.self) {integrante in
-                VStack {                    IntegranteInfo(integrante: integrante)
+                VStack {                    IntegranteInfo(id: integrante.id ?? "")
                         .environmentObject(integrantesViewModel) 
                 }
             }

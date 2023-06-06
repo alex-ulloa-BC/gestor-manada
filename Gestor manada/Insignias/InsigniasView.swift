@@ -27,7 +27,15 @@ struct InsigniasView: View {
     }
     
     func handleSaveEspecialidad() {
-        integrantesViewModel.agregarEspecialidad(integrante: integrante, especialidad: Especialidad(especialidad: especialidad, valor: valor))
+        var especialidades = integrante.especialidades ?? Especialidades()
+        
+        especialidades[especialidad] = valor + 1
+        
+        guard let id = integrante.id else {
+            return
+        }
+        
+        integrantesViewModel.agregarEspecialidad(id: id, especialidades: especialidades)
         
         withAnimation(.easeOut) {
             showEspecialidadForm = false
@@ -42,15 +50,8 @@ struct InsigniasView: View {
                     Picker("Integrante", selection: $integrante) {
                         ForEach(0..<integrantesViewModel.integrantes.count, id:\.self) {index in
                             Text(integrantesViewModel.integrantes[index].nombre).tag(integrantesViewModel.integrantes[index])
-//                            Text(i.nombre).tag(i)
                         }
                     }
-                    
-//                    Picker("Integrante", selection: $integrante) {
-//                        ForEach(integrantesViewModel.integrantes.sorted(by: {$0.nombre < $1.nombre})) {i in
-//                            Text(i.nombre).tag(i)
-//                        }
-//                    }
                     
                     Picker("Especialidad", selection: $especialidad) {
                         ForEach(TodasLasEspecialidades.indices, id: \.self) {i in
@@ -63,8 +64,6 @@ struct InsigniasView: View {
                             Text((i+1).description).tag(i)
                         }
                     }.pickerStyle(.segmented)
-                    
-                    
                     
                     Button(action: handleSaveEspecialidad) {
                         Text("Guardar")
@@ -104,14 +103,6 @@ struct InsigniasView: View {
             Alert(title: Text("Bajo construcción"), message: Text("Pronto estará disponible esta funcionalidad"))
         }
         .padding(.horizontal)
-//        .onAppear {
-//            let query = integrantesViewModel.query(nombre: nil, promesa: nil, etapa: nil, sortOption: nil)
-//            integrantesViewModel.subscribe(to: query)
-//        }
-//        .onDisappear {
-//            integrantesViewModel.unsubscribe()
-//        }
-        
     }
 }
 

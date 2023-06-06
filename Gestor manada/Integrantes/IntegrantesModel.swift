@@ -42,13 +42,54 @@ public enum EspecialidadNombre: String, Codable {
     case fe = "Fe"
     case naturaleza = "Vida en la Naturaleza"
     case servicio = "Servicio"
-    
 }
 
-
-struct Especialidad: Codable, Hashable {
-    var especialidad: EspecialidadNombre
-    var valor: Int
+struct Especialidades: Codable, Hashable {
+    var arte: Int = 0
+    var ciencia: Int = 0
+    var deporte: Int = 0
+    var fe: Int = 0
+    var naturaleza: Int = 0
+    var servicio: Int = 0
+    
+    
+    subscript(especialidad: EspecialidadNombre) -> Int {
+        
+        get {
+            switch especialidad {
+            case .arte:
+                return self.arte
+            case .ciencia:
+                return self.ciencia
+            case .deporte:
+                return self.deporte
+            case .fe:
+                return self.fe
+            case .naturaleza:
+                return self.naturaleza
+            case .servicio:
+                return self.servicio
+            }
+        }
+        set {
+            switch especialidad {
+            case .arte:
+                self.arte = newValue
+            case .ciencia:
+                self.ciencia = newValue
+            case .deporte:
+                self.deporte = newValue
+            case .fe:
+                self.fe = newValue
+            case .naturaleza:
+                self.naturaleza = newValue
+            case .servicio:
+                self.servicio = newValue
+            }
+        }
+        
+        
+    }
 }
 
 struct ContactoEmergencia: Codable, Hashable {
@@ -69,7 +110,7 @@ struct Integrante: Codable, Identifiable, Hashable {
     var etapa: Etapa
     var carnetizado: Bool = false
     var seisena: Seisena = .negra
-    var especialidades: [Especialidad]?
+    var especialidades: Especialidades? = Especialidades()
     var contactoEmergencia: ContactoEmergencia = ContactoEmergencia(nombre: "", numero: "")
 }
 
@@ -97,4 +138,3 @@ public let TodasLasEspecialidades: [EspecialidadNombre] = [
     .naturaleza,
     .servicio
 ]
-
