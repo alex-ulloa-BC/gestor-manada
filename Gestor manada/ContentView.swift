@@ -32,6 +32,19 @@ struct ContentView: View {
                     Image(systemName: "flag.checkered.2.crossed")
                     Text("Insignias")
                 }
+            
+            CicloView()
+                .tabItem{
+                    Image(systemName: "calendar")
+                    Text("Ciclo")
+                }
+            
+            DirigentesView()
+                .tabItem{
+                    Image(systemName: "backpack.fill")
+                    Text("Dirigentes")
+                }
+            
         }
         .onAppear {
             let color: Color = colorScheme == .dark ? .black : .white

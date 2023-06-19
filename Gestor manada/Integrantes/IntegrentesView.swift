@@ -46,8 +46,7 @@ struct IntegrentesView: View {
                 
             }
             .navigationDestination(for: Integrante.self) {integrante in
-                VStack {                    IntegranteInfo(id: integrante.id ?? "")
-                        .environmentObject(integrantesViewModel) 
+                VStack {                    IntegranteInfo(integrante: integrante) 
                 }
             }
             

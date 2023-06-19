@@ -10,14 +10,13 @@ import SwiftUI
 struct IntegranteInfo: View {
     @EnvironmentObject var integrantesViewModel: IntegrantesViewModel
     @State var isShowingSheet = false
-    @ObservedObject var integranteViewModel = IntegranteViewModel()
-    var id: String
+    @State var integrante: Integrante
     
     func getEdad () -> Int {
         let cal = Calendar(identifier: .gregorian)
         guard let years = cal.dateComponents(
             [.year],
-            from: integranteViewModel.integrante.fechaNacimiento,
+            from: integrante.fechaNacimiento,
             to: Date()
         ).year else {
             return 0
@@ -35,12 +34,12 @@ struct IntegranteInfo: View {
     }
     
     func isEtapaRight() -> Bool {
-        return getEtapaDeberia() == integranteViewModel.integrante.etapa
+        return getEtapaDeberia() == integrante.etapa
     }
     
     func handleEdit() {
         isShowingSheet = true
-        integrantesViewModel.integranteNuevo = integranteViewModel.integrante
+        integrantesViewModel.integranteNuevo = integrante
     }
     
     func handleCloseSheet() {
@@ -51,7 +50,7 @@ struct IntegranteInfo: View {
         
         VStack {
             HStack {
-                Text(integranteViewModel.integrante.nombre)
+                Text(integrante.nombre)
                     .font(.title)
                 
                 Spacer()
@@ -64,10 +63,10 @@ struct IntegranteInfo: View {
             ScrollView {
                 
                 Group {
-                    InfoRow(label: "Nombre de Caza", value: integranteViewModel.integrante.nombreCaza ?? "")
-                    InfoBoolRow(label: "Carnetizado", value: integranteViewModel.integrante.carnetizado)
-                    InfoBoolRow(label: "Promesa", value: integranteViewModel.integrante.promesa)
-                    InfoRow(label: "Fecha Nacimiento", value: integranteViewModel.integrante.fechaNacimiento.formatted(date: .abbreviated, time: .omitted))
+                    InfoRow(label: "Nombre de Caza", value: integrante.nombreCaza ?? "")
+                    InfoBoolRow(label: "Carnetizado", value: integrante.carnetizado)
+                    InfoBoolRow(label: "Promesa", value: integrante.promesa)
+                    InfoRow(label: "Fecha Nacimiento", value: integrante.fechaNacimiento.formatted(date: .abbreviated, time: .omitted))
                     InfoRow(label: "Edad", value: "\(getEdad()) años")
                 }
                 
@@ -75,7 +74,7 @@ struct IntegranteInfo: View {
                     Text("Contacto Emergencia")
                         .foregroundColor(.gray)
                     Spacer()
-                    Link(integranteViewModel.integrante.contactoEmergencia.nombre, destination: URL(string: "tel:\(integranteViewModel.integrante.contactoEmergencia.numero)") ?? URL(string: "tel:911")!)
+                    Link(integrante.contactoEmergencia.nombre, destination: URL(string: "tel:\(integrante.contactoEmergencia.numero)") ?? URL(string: "tel:911")!)
                     
                 }
                 .padding(.horizontal)
@@ -87,7 +86,7 @@ struct IntegranteInfo: View {
                     Text("Seisena")
                         .foregroundColor(.gray)
                     Spacer()
-                    InfoSeisena(seisena: integranteViewModel.integrante.seisena)
+                    InfoSeisena(seisena: integrante.seisena)
                 }.padding(.horizontal)
                     .padding(.top)
                 
@@ -98,7 +97,7 @@ struct IntegranteInfo: View {
                         Text("Etapa")
                             .foregroundColor(.gray)
                         Spacer()
-                        Text("\(integranteViewModel.integrante.etapa.rawValue)")
+                        Text("\(integrante.etapa.rawValue)")
                         
                     }
                     .padding(.horizontal)
@@ -106,7 +105,7 @@ struct IntegranteInfo: View {
                     
                     
                     HStack(alignment: .center) {
-                        Image(integranteViewModel.integrante.etapa.rawValue)
+                        Image(integrante.etapa.rawValue)
                             .resizable()
                             .frame(width: 100, height: 100)
                             .padding(10)
@@ -125,7 +124,7 @@ struct IntegranteInfo: View {
                 
                 Group {
                     ForEach(TodasLasEspecialidades.indices, id: \.self) { i in
-                        EspecialidadView(integrante: integranteViewModel.integrante, especialidad: TodasLasEspecialidades[i])
+                        EspecialidadView(integrante: integrante, especialidad: TodasLasEspecialidades[i])
                     }
                 }
                 
@@ -143,13 +142,7 @@ struct IntegranteInfo: View {
                 alignment: .topLeading
             )
             .sheet(isPresented: $isShowingSheet, onDismiss: handleCloseSheet) {
-                IntegranteNuevo(nombreCaza: integranteViewModel.integrante.nombreCaza ?? "", handleClose: handleCloseSheet)
-            }
-            .onAppear {
-                integranteViewModel.subscribe(id: id)
-            }
-            .onDisappear {
-                integranteViewModel.unsubscribe()
+                IntegranteNuevo(nombreCaza: integrante.nombreCaza ?? "", handleClose: handleCloseSheet)
             }
         }
     }
@@ -158,7 +151,9 @@ struct IntegranteInfo: View {
 struct IntegranteInfo_Previews: PreviewProvider {
     static let especialidades = Especialidades()
     static let contactoEmergencia = ContactoEmergencia(nombre: "Juanita Perez", numero: "0987607014")
+    
+    static let integrante = Integrante(nombre: "Aleex", fechaNacimiento: Date(), etapa: .cazador, especialidades: especialidades, contactoEmergencia: contactoEmergencia)
     static var previews: some View {
-        IntegranteInfo(id: "123")
+        IntegranteInfo(integrante: integrante)
     }
 }
